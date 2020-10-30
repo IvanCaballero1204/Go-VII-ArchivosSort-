@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"sort"
 )
 
@@ -20,9 +21,31 @@ func main() {
 		temp --
 	}
 
-	fmt.Println(arreglo)
-
+	fmt.Println("Arreglo desordenado:", arreglo)
 	sort.Strings(arreglo)
 
-	fmt.Print(arreglo)
+	file, err := os.Create("ascendente.txt")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	
+	for i := 0; i < len(arreglo); i++ {
+		file.WriteString(arreglo[i] + "\n")
+	}
+
+	file.Close()
+	
+	file, err = os.Create("descendente.txt")
+	
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	for j := len(arreglo) - 1; j >= 0; j-- {
+		file.WriteString(arreglo[j] + "\n")
+	}
+
+	file.Close()
 }
